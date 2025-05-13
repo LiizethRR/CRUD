@@ -80,4 +80,23 @@ usuarios: Usuario[] = [];
     this.nuevoUsuario = { nombre: '', apellido: '', telefono: '', correo: '' };
     this.editando = false;
   }
+
+descargarRegistrosPDF(): void {
+  this.usuarioService.descargarRegistrosPDF().subscribe({
+    next: (pdfBlob) => {
+      const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Registros.pdf';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    },
+    error: (error) => {
+      console.error('Error al descargar el PDF:', error);
+    }
+  });
+}
+
+
 }

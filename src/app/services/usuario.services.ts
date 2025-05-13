@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class UsuarioService {
 
   private apiUrl = 'http://localhost:3000/api/registro';
+  private apiUrl2 = 'http://localhost:3000/api/registro/descarga/pdf'
 
   constructor(private http: HttpClient) {}
 
@@ -36,6 +37,9 @@ export class UsuarioService {
   eliminarUsuario(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+  
+  descargarRegistrosPDF(): Observable<Blob> {
+  return this.http.get(this.apiUrl2, { responseType: 'blob' });
+}
 
-  //descargarRegistrosPDF()
 }
