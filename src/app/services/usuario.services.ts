@@ -37,5 +37,5 @@ export class UsuarioService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  descargarRegistrosPDF()
+  //descargarRegistrosPDF()
 }
