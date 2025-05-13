@@ -1,35 +1,34 @@
 <div class="container">
-  <h2>Gestión de Alumnos</h2>
+  <h2>Gestión de Usuarios</h2>
 
-  <form (ngSubmit)="agregarAlumno()" class="formulario">
-    <input type="text" placeholder="Nombre" [(ngModel)]="nuevoAlumno.nombre" name="nombre" required />
-    <input type="text" placeholder="Apellidos" [(ngModel)]="nuevoAlumno.apellidos" name="Apellidos" required />
-        <input type="text" placeholder="Telefono" [(ngModel)]="nuevoAlumno.telefono" name="Telefono" required />
-            <input type="text" placeholder="Correo" [(ngModel)]="nuevoAlumno.correo" name="Correo" required />
+  <form (ngSubmit)="agregarUsuario()" #form="ngForm">
+    <input type="text" placeholder="Nombre" [(ngModel)]="nuevoUsuario.nombre" name="nombre" required />
+    <input type="text" placeholder="Apellido" [(ngModel)]="nuevoUsuario.apellido" name="apellido" required />
+    <input type="text" placeholder="Teléfono" [(ngModel)]="nuevoUsuario.telefono" name="telefono" required />
+    <input type="email" placeholder="Correo" [(ngModel)]="nuevoUsuario.correo" name="correo" required />
     <button type="submit">{{ editando ? 'Actualizar' : 'Agregar' }}</button>
-    <button type="button" (click)="cancelar()" *ngIf="editando">Cancelar</button>
+    <button type="button" (click)="limpiarFormulario()" *ngIf="editando">Cancelar</button>
   </form>
 
   <table>
     <thead>
       <tr>
-        <th>ID</th>
         <th>Nombre</th>
-        <th>Apellidos</th>
-        <th>Telefono</th>
+        <th>Apellido</th>
+        <th>Teléfono</th>
         <th>Correo</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let alumno of alumnos">
-        <td>{{ alumno.id }}</td>
-        <td>{{ alumno.nombre }}</td>
-        <td>{{ alumno.apellidos }}</td>
-        <td>{{ alumno.telefono }}</td>
-        <td>{{ alumno.correo }}</td>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.apellido }}</td>
+        <td>{{ usuario.telefono }}</td>
+        <td>{{ usuario.correo }}</td>
         <td>
-          <button (click)="editarAlumno(alumno)">Editar</button>
-          <button (click)="eliminarAlumno(alumno.id)">Eliminar</button>
+          <button (click)="editarUsuario(usuario)">Editar</button>
+          <button (click)="eliminarUsuario(usuario._id!)">Eliminar</button>
         </td>
       </tr>
     </tbody>

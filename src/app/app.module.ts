@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { RegistroModule } from './registro/registro.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { RegistroModule } from './registro/registro.module';
     AppRoutingModule,
     RouterModule,
     FormsModule,
-    RegistroModule
+    RegistroModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

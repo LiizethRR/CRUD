@@ -1,54 +1,82 @@
-import { Component, OnInit } from '@angular/core';
-import { UsuarioService } from '../../../services/usuario.services';
+  import { Component, OnInit } from '@angular/core';
+  import { UsuarioService } from '../../../services/usuario.services';
 
-interface Alumno {
-  id: number;
+export interface Usuario {
+  _id?: string; 
   nombre: string;
-  apellidos: string;
-  telefono: number;
+  apellido: string;
+  telefono: string;
   correo: string;
-
 }
-@Component({
-  selector: 'app-crud',
-  templateUrl: './crud.component.html',
-  styleUrls: ['./crud.component.css']
-})
-export class CrudComponent /*implements OnInit*/{
-
-   alumnos: Alumno[] = [];
-  nuevoAlumno: Alumno = { id: 0, nombre: '', apellidos: '', telefono: 0, correo: ''  };
+  @Component({
+    selector: 'app-crud',
+    templateUrl: './crud.component.html',
+    styleUrls: ['./crud.component.css']
+  })
+  export class CrudComponent implements OnInit {
+usuarios: Usuario[] = [];
+  nuevoUsuario: Usuario = { nombre: '', apellido: '', telefono: '', correo: '' };
   editando: boolean = false;
- /* constructor(private usuarioService: UsuarioService) {}
-  //  ngOnInit() {
 
-  }*/
-  agregarAlumno() {
-    if (this.editando) {
-      const index = this.alumnos.findIndex(a => a.id === this.nuevoAlumno.id);
-      if (index !== -1) {
-        this.alumnos[index] = { ...this.nuevoAlumno };
-      }
-      this.editando = false;
-    } else {
-      const nuevoId = this.alumnos.length ? Math.max(...this.alumnos.map(a => a.id)) + 1 : 1;
-      this.alumnos.push({ ...this.nuevoAlumno, id: nuevoId });
-    }
-    this.nuevoAlumno = { id: 0, nombre: '',  apellidos: '', telefono: 0, correo: ''};
+  constructor(private usuarioService: UsuarioService) {}
+
+  ngOnInit(): void {
+    this.obtenerUsuarios();
   }
 
-  editarAlumno(alumno: Alumno) {
-    this.nuevoAlumno = { ...alumno };
+  obtenerUsuarios(): void {
+    this.usuarioService.getUsuarios().subscribe({
+      next: (usuarios) => {
+        this.usuarios = usuarios;
+      },
+      error: (error) => {
+        console.error('Error al obtener usuarios:', error);
+      }
+    });
+  }
+
+  agregarUsuario(): void {
+    if (this.editando && this.nuevoUsuario._id) {
+      this.usuarioService.actualizarUsuario(this.nuevoUsuario._id, this.nuevoUsuario).subscribe({
+        next: () => {
+          this.obtenerUsuarios();
+          this.limpiarFormulario();
+        },
+        error: (error) => {
+          console.error('Error al actualizar usuario:', error);
+        }
+      });
+    } else {
+      this.usuarioService.registrarUsuario(this.nuevoUsuario).subscribe({
+        next: () => {
+          this.obtenerUsuarios(); // recargar la lista
+          this.limpiarFormulario();
+        },
+        error: (error) => {
+          console.error('Error al agregar usuario:', error);
+        }
+      });
+    }
+  }
+
+  editarUsuario(usuario: Usuario): void {
+    this.nuevoUsuario = { ...usuario };
     this.editando = true;
   }
 
-  eliminarAlumno(id: number) {
-    this.alumnos = this.alumnos.filter(a => a.id !== id);
+  eliminarUsuario(id: string): void {
+    this.usuarioService.eliminarUsuario(id).subscribe({
+      next: () => {
+        this.obtenerUsuarios();
+      },
+      error: (error) => {
+        console.error('Error al eliminar usuario:', error);
+      }
+    });
   }
 
-  cancelar() {
-    this.nuevoAlumno = { id: 0, nombre: '',  apellidos: '', telefono: 0, correo: '' };
+  limpiarFormulario(): void {
+    this.nuevoUsuario = { nombre: '', apellido: '', telefono: '', correo: '' };
     this.editando = false;
   }
-
 }
