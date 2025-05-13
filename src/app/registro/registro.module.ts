@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { RegistroRoutingModule } from './registro-routing.module';
 import { CrudComponent } from './pages/crud/crud.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { CrudComponent } from './pages/crud/crud.component';
   ],
   imports: [
     CommonModule,
-    RegistroRoutingModule
+    RegistroRoutingModule,
+    FormsModule
   ]
 })
 export class RegistroModule { }

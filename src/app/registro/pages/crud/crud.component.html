@@ -1,1 +1,37 @@
-<p>crud works!</p>
+<div class="container">
+  <h2>Gestión de Alumnos</h2>
+
+  <form (ngSubmit)="agregarAlumno()" class="formulario">
+    <input type="text" placeholder="Nombre" [(ngModel)]="nuevoAlumno.nombre" name="nombre" required />
+    <input type="text" placeholder="Apellidos" [(ngModel)]="nuevoAlumno.apellidos" name="Apellidos" required />
+        <input type="text" placeholder="Telefono" [(ngModel)]="nuevoAlumno.telefono" name="Telefono" required />
+            <input type="text" placeholder="Correo" [(ngModel)]="nuevoAlumno.correo" name="Correo" required />
+    <button type="submit">{{ editando ? 'Actualizar' : 'Agregar' }}</button>
+    <button type="button" (click)="cancelar()" *ngIf="editando">Cancelar</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Telefono</th>
+        <th>Correo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let alumno of alumnos">
+        <td>{{ alumno.id }}</td>
+        <td>{{ alumno.nombre }}</td>
+        <td>{{ alumno.apellidos }}</td>
+        <td>{{ alumno.telefono }}</td>
+        <td>{{ alumno.correo }}</td>
+        <td>
+          <button (click)="editarAlumno(alumno)">Editar</button>
+          <button (click)="eliminarAlumno(alumno.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
