@@ -2,7 +2,7 @@
   import { UsuarioService } from '../../../services/usuario.services';
 
 export interface Usuario {
-  _id?: string; 
+  _id?: string;
   nombre: string;
   apellido: string;
   telefono: string;
@@ -63,6 +63,7 @@ usuarios: Usuario[] = [];
     this.nuevoUsuario = { ...usuario };
     this.editando = true;
   }
+  
 
   eliminarUsuario(id: string): void {
     this.usuarioService.eliminarUsuario(id).subscribe({
